@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Juz Amma Cloud</title>
+    
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#10b981">
+    <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/3024/3024497.png">
+
+    <link href="https://fonts.googleapis.com/css2?family=Amiri&family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --primary: #10b981; --primary-dim: rgba(16, 185, 129, 0.1); --dark: #0f172a; --light: #f8fafc; --surface: #ffffff; }
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body { margin: 0; font-family: 'Poppins', sans-serif; background: var(--light); color: var(--dark); height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
+        .view { display: none; flex: 1; overflow-y: auto; padding-bottom: 160px; scroll-behavior: smooth; }
+        .view.active { display: block; }
+        .header-quran { background: var(--surface); padding: 15px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 20; }
+        .header-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+        .app-title { font-weight: 700; font-size: 1.2rem; color: var(--primary); }
+        .btn-settings { background: #f1f5f9; border: none; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; cursor: pointer; color: #64748b; }
+        .loader { border: 4px solid #f3f3f3; border-top: 4px solid var(--primary); border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; margin: 50px auto; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .loading-text { text-align: center; color: #94a3b8; font-size: 0.9rem; margin-top: 10px; }
+        .search-bar { width: 100%; padding: 12px 15px; border: 1px solid #e2e8f0; border-radius: 12px; background: #f8fafc; font-family: inherit; font-size: 0.95rem; }
+        .search-bar:focus { outline: 2px solid var(--primary); border-color: transparent; }
+        .settings-panel { display: none; background: #f1f5f9; padding: 15px; border-radius: 12px; margin-bottom: 15px; }
+        .settings-panel.open { display: block; animation: slideDown 0.2s; }
+        @keyframes slideDown { from {opacity:0; transform:translateY(-10px);} to {opacity:1; transform:translateY(0);} }
+        .slider-container { display: flex; align-items: center; gap: 10px; margin-top: 5px; }
+        input[type=range] { flex: 1; accent-color: var(--primary); }
+        .surah-header { text-align: center; margin: 30px 0 10px; color: #64748b; font-weight: 600; background: #f1f5f9; padding: 8px 15px; border-radius: 20px; display: inline-block; font-size: 0.9rem; }
+        .verse-card { background: var(--surface); padding: 25px 20px; margin: 15px; border-radius: 16px; text-align: center; box-shadow: 0 2px 5px rgba(0,0,0,0.03); position: relative; transition: all 0.3s ease; border: 2px solid transparent; scroll-margin-top: 140px; }
+        .verse-card.playing { border-color: var(--primary); background: var(--primary-dim); transform: scale(1.02); box-shadow: 0 8px 25px rgba(16,185,129,0.2); }
+        .arabic-text { font-family: 'Amiri', serif; line-height: 2.4; margin-bottom: 15px; color: #1e293b; }
+        .trans-text { font-size: 0.95rem; color: #64748b; border-top: 1px dashed #e2e8f0; padding-top: 15px; }
+        .hidden { display: none; }
+        .player-bar { position: fixed; bottom: 70px; left: 0; width: 100%; height: 70px; background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(10px); border-top: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: space-between; padding: 0 20px; color: white; z-index: 150; transition: transform 0.3s; transform: translateY(100%); }
+        .player-bar.visible { transform: translateY(0); }
+        .player-info { flex: 1; display: flex; flex-direction: column; justify-content: center; overflow: hidden; }
+        .player-title { font-size: 0.9rem; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .player-sub { font-size: 0.75rem; color: #94a3b8; }
+        .player-controls { display: flex; gap: 10px; align-items: center; }
+        .ctrl-btn { background: none; border: none; color: white; font-size: 1.2rem; cursor: pointer; padding: 5px; }
+        .ctrl-btn.play { background: var(--primary); width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; box-shadow: 0 0 10px rgba(16,185,129,0.4); }
+        .ctrl-btn.active { color: var(--primary); }
+        #tasbih-view { background: linear-gradient(135deg, #0f172a 0%, #334155 100%); color: white; display: none; flex-direction: column; }
+        #tasbih-view.active { display: flex; }
+        .zikr-carousel { display: flex; gap: 10px; overflow-x: auto; padding: 15px 20px; background: rgba(0,0,0,0.2); white-space: nowrap; }
+        .zikr-chip { background: rgba(255,255,255,0.1); padding: 8px 16px; border-radius: 20px; color: #cbd5e1; flex-shrink: 0; transition: 0.2s; font-size: 0.9rem; }
+        .zikr-chip.active { background: var(--primary); color: white; font-weight: bold; transform: scale(1.05); }
+        .counter-wrapper { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 10px 20px; text-align: center; }
+        .big-button { width: 180px; height: 180px; border-radius: 50%; background: rgba(255,255,255,0.05); border: 5px solid var(--primary); display: flex; flex-direction: column; align-items: center; justify-content: center; box-shadow: 0 0 30px rgba(16, 185, 129, 0.2); user-select: none; margin-top: 10px; }
+        .big-button:active { transform: scale(0.95); background: rgba(16, 185, 129, 0.1); }
+        #count-number { font-size: 3.5rem; font-weight: 700; line-height: 1; }
+        .text-deck { margin-bottom: 10px; }
+        .bottom-nav { position: fixed; bottom: 0; width: 100%; height: 70px; background: var(--surface); display: flex; justify-content: space-around; align-items: center; box-shadow: 0 -4px 20px rgba(0,0,0,0.05); z-index: 100; }
+        .nav-item { display: flex; flex-direction: column; align-items: center; color: #94a3b8; font-size: 0.8rem; font-weight: 500; transition: 0.2s; }
+        .nav-item.active { color: var(--primary); transform: translateY(-2px); }
+        .nav-icon { font-size: 1.5rem; margin-bottom: 4px; }
+        .toast-container { position: fixed; bottom: 150px; left: 50%; transform: translateX(-50%); z-index: 300; pointer-events: none; width: 90%; max-width: 320px; }
+        .toast { background: rgba(15, 23, 42, 0.9); color: white; padding: 12px 24px; border-radius: 50px; margin-top: 10px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.2); font-size: 0.9rem; opacity: 0; transform: translateY(10px); transition: all 0.3s; }
+        .toast.visible { opacity: 1; transform: translateY(0); }
+        .toast.error { background: var(--error); }
+        .toast.success { background: var(--primary); }
+    </style>
+</head>
+<body>
+
+    <div id="quran-view" class="view active">
+        <div class="header-quran">
+            <div class="header-top">
+                <span class="app-title">Juz Amma Cloud</span>
+                <button class="btn-settings" onclick="toggleSettings()">Aa</button>
+            </div>
+            
+            <div id="settings-panel" class="settings-panel">
+                <div class="slider-container">
+                    <span style="font-size:0.8rem; color:#64748b;">Size</span>
+                    <input type="range" min="20" max="50" value="28" id="font-slider" oninput="updateFontSize(this.value)">
+                </div>
+                <div style="margin-top:15px;">
+                    <button onclick="toggleTranslation()" style="width:100%; background:white; border:1px solid #cbd5e1; padding:8px; border-radius:8px;">Toggle English</button>
+                </div>
+            </div>
+
+            <input type="text" class="search-bar" placeholder="Search Surah (e.g. Naba)..." oninput="filterSurahs(this.value)">
+        </div>
+        
+        <div id="quran-list">
+            <div class="loader"></div>
+            <div class="loading-text">Downloading Juz Amma...<br>(Requires Internet once)</div>
+        </div>
+    </div>
+
+    <div id="tasbih-view" class="view">
+        <div class="zikr-carousel" id="zikr-list-container"></div>
+        <div class="counter-wrapper">
+            <div class="text-deck">
+                <div id="display-title" style="font-size:1.6rem; font-weight:bold; margin-bottom:5px;">...</div>
+                <div id="display-arabic" style="font-family:'Amiri',serif; font-size:2.2rem; color:#fbbf24; line-height:1.5; margin-bottom:5px;">...</div>
+                <div id="display-meaning" style="font-size:0.95rem; opacity:0.8; font-style:italic;">...</div>
+            </div>
+            <div class="big-button" onclick="incrementCounter()">
+                <span id="count-number">0</span>
+                <span style="font-size:0.8rem; opacity:0.6; margin-top:2px;">Tap</span>
+            </div>
+            <button onclick="resetCounter()" style="margin-top:25px; background:rgba(255,255,255,0.1); border:none; color:white; padding:10px 25px; border-radius:20px;">Reset</button>
+        </div>
+    </div>
+
+    <div id="player-bar" class="player-bar">
+        <div class="player-info">
+            <div id="p-title" class="player-title">Select a Surah</div>
+            <div id="p-sub" class="player-sub">Tap a verse to play</div>
+        </div>
+        <div class="player-controls">
+            <button class="ctrl-btn" id="btn-loop" onclick="toggleLoop()">↻</button>
+            <button class="ctrl-btn" onclick="prevVerse()">⏮</button>
+            <button class="ctrl-btn play" id="btn-play-pause" onclick="togglePlay()">▶</button>
+            <button class="ctrl-btn" onclick="nextVerse()">⏭</button>
+        </div>
+    </div>
+
+    <nav class="bottom-nav">
+        <div class="nav-item active" onclick="switchTab('quran', this)"> <span class="nav-icon">📖</span> Quran </div>
+        <div class="nav-item" onclick="switchTab('tasbih', this)"> <span class="nav-icon">📿</span> Tasbih </div>
+    </nav>
+
+    <div class="toast-container" id="toast-area"></div>
+    <audio id="audioPlayer" preload="none"></audio>
+  <script>
+        // PWA REGISTRATION
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('./sw.js')
+                .then(() => console.log('SW Registered'))
+                .catch((err) => console.log('SW Fail', err));
+        }
+
+        let quranData = []; 
+        const zikrPresets = [
+            { title: "SubhanAllah", ar: "سُبْحَانَ ٱللَّٰهِ", mean: "Glory be to Allah" },
+            { title: "Alhamdulillah", ar: "ٱلْحَمْدُ لِلَّٰهِ", mean: "All praise is due to Allah" },
+            { title: "Allahu Akbar", ar: "ٱللَّٰهُ أَكْبَرُ", mean: "Allah is Greatest" },
+            { title: "Astaghfirullah", ar: "أَسْتَغْفِرُ ٱللَّٰهَ", mean: "I seek forgiveness from Allah" },
+            { title: "La ilaha illallah", ar: "لَا إِلَٰهَ إِلَّا ٱللَّٰهُ", mean: "There is no god but Allah" }
+        ];
+
+        async function initApp() {
+            renderZikr();
+            const cachedData = localStorage.getItem('juzAmmaCache');
+            if (cachedData) {
+                quranData = JSON.parse(cachedData);
+                renderQuran();
+                showToast("Loaded from Storage");
+            } else {
+                await fetchFromCloud();
+            }
+        }
+
+        async function fetchFromCloud() {
+            try {
+                // Fetch Juz 30 (Arabic)
+                const arRes = await fetch('https://api.alquran.cloud/v1/juz/30/quran-uthmani');
+                const arJson = await arRes.json();
+                // Fetch Juz 30 (English)
+                const enRes = await fetch('https://api.alquran.cloud/v1/juz/30/en.sahih');
+                const enJson = await enRes.json();
+
+                if(arJson.code === 200 && enJson.code === 200) {
+                    processCloudData(arJson.data.ayahs, enJson.data.ayahs);
+                } else {
+                    throw new Error("API Error");
+                }
+            } catch (e) {
+                document.getElementById('quran-list').innerHTML = 
+                    `<div style="text-align:center; padding:50px;"><div style="color:red; font-size:2rem;">⚠</div>Failed to download.<br>Check internet & reload.</div>`;
+            }
+        }
+
+        function processCloudData(arAyahs, enAyahs) {
+            let tempSurahs = {};
+            arAyahs.forEach((ayah, index) => {
+                const sNum = ayah.surah.number;
+                if (!tempSurahs[sNum]) {
+                    tempSurahs[sNum] = { id: sNum, name: ayah.surah.englishName, verses: [] };
+                }
+                tempSurahs[sNum].verses.push({ a: ayah.text, e: enAyahs[index].text });
+            });
+            quranData = Object.values(tempSurahs).sort((a, b) => a.id - b.id);
+            localStorage.setItem('juzAmmaCache', JSON.stringify(quranData));
+            renderQuran();
+            showToast("Download Complete!");
+        }
+
+        function renderQuran(filter = "") {
+            const list = document.getElementById('quran-list');
+            if(quranData.length === 0) return;
+            let html = '';
+            const filtered = quranData.filter(s => s.name.toLowerCase().includes(filter.toLowerCase()));
+            if(filtered.length === 0) {
+                list.innerHTML = `<div style="text-align:center; padding:50px 20px; color:#94a3b8;">No Surah found</div>`;
+                return;
+            }
+            filtered.forEach(surah => {
+                html += `<div style="text-align:center;"><div class="surah-header">Surah ${surah.name}</div></div>`;
+                surah.verses.forEach((v, i) => {
+                    const verseNum = i + 1;
+                    html += `
+                    <div class="verse-card" id="verse-${surah.id}-${verseNum}" onclick="manualPlay(${surah.id}, ${i})">
+                        <div class="arabic-text" style="font-size:${fontSize}px;">${v.a}</div>
+                        <div class="trans-text ${showEnglish ? '' : 'hidden'}">${v.e}</div>
+                        <div style="position:absolute; top:10px; left:10px; font-size:0.7rem; color:#cbd5e1;">${verseNum}</div>
+                    </div>`;
+                });
+            });
+            list.innerHTML = html;
+        }
+
+        let showEnglish = true, fontSize = 28, isPlaying = false, isLooping = false, currentVerseIndex = -1, currentSurahId = 114;
+
+        function showToast(msg, type = 'normal') {
+            const container = document.getElementById('toast-area');
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.innerText = msg;
+            container.appendChild(toast);
+            requestAnimationFrame(() => toast.classList.add('visible'));
+            setTimeout(() => { toast.classList.remove('visible'); setTimeout(() => toast.remove(), 300); }, 3000);
+        }
+
+        function filterSurahs(txt) { renderQuran(txt); }
+        function toggleSettings() { document.getElementById('settings-panel').classList.toggle('open'); }
+        function updateFontSize(val) { fontSize = val; document.querySelectorAll('.arabic-text').forEach(el => el.style.fontSize = val + "px"); }
+        function toggleTranslation() { showEnglish = !showEnglish; renderQuran(document.querySelector('.search-bar').value); }
+
+        const audio = document.getElementById('audioPlayer');
+        audio.onended = () => { isLooping ? playVerse(currentSurahId, currentVerseIndex) : nextVerse(); };
+        audio.onerror = () => { showToast("Audio Error", "error"); isPlaying = false; updatePlayerUI(); };
+
+        function togglePlay() {
+            if (isPlaying) { audio.pause(); isPlaying = false; } 
+            else { if(currentVerseIndex === -1) currentVerseIndex = 0; playVerse(currentSurahId, currentVerseIndex); }
+            updatePlayerUI();
+        }
+
+        function manualPlay(sid, vIndex) {
+            currentSurahId = sid;
+            currentVerseIndex = vIndex;
+            if(document.getElementById('quran-view').classList.contains('active')) document.getElementById('player-bar').classList.add('visible');
+            playVerse(sid, vIndex);
+        }
+
+        function playVerse(sid, vIndex) {
+            const surah = quranData.find(s => s.id === sid);
+            if(vIndex < 0 || vIndex >= surah.verses.length) return;
+            currentSurahId = sid;
+            currentVerseIndex = vIndex;
+            isPlaying = true;
+            document.querySelectorAll('.verse-card').forEach(c => c.classList.remove('playing'));
+            const vNum = vIndex + 1;
+            const card = document.getElementById(`verse-${sid}-${vNum}`);
+            if(card) {
+                card.classList.add('playing');
+                card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+            const sStr = String(sid).padStart(3, '0');
+            const vStr = String(vNum).padStart(3, '0');
+            audio.src = `https://everyayah.com/data/Alafasy_128kbps/${sStr}${vStr}.mp3`;
+            audio.play();
+            updatePlayerUI();
+        }
+
+        function nextVerse() {
+            const surah = quranData.find(s => s.id === currentSurahId);
+            if (currentVerseIndex < surah.verses.length - 1) playVerse(currentSurahId, currentVerseIndex + 1);
+            else { showToast("Surah Completed"); isPlaying = false; updatePlayerUI(); }
+        }
+
+        function prevVerse() {
+            if (currentVerseIndex > 0) playVerse(currentSurahId, currentVerseIndex - 1);
+            else playVerse(currentSurahId, 0);
+        }
+
+        function toggleLoop() {
+            isLooping = !isLooping;
+            document.getElementById('btn-loop').classList.toggle('active');
+            showToast(isLooping ? "Loop: ON" : "Loop: OFF");
+        }
+
+        function updatePlayerUI() {
+            document.getElementById('btn-play-pause').innerText = isPlaying ? "⏸" : "▶";
+            const surah = quranData.find(s => s.id === currentSurahId);
+            document.getElementById('p-title').innerText = `Surah ${surah.name}`;
+            document.getElementById('p-sub').innerText = `Verse ${currentVerseIndex + 1}`;
+        }
+
+        let count = parseInt(localStorage.getItem('t_count')) || 0;
+        let zikrIdx = parseInt(localStorage.getItem('t_idx')) || 0;
+
+        function renderZikr() {
+            const list = document.getElementById('zikr-list-container');
+            list.innerHTML = '';
+            zikrPresets.forEach((z, i) => {
+                const chip = document.createElement('div');
+                chip.className = `zikr-chip ${i === zikrIdx ? 'active' : ''}`;
+                chip.innerText = z.title;
+                chip.onclick = () => { zikrIdx = i; localStorage.setItem('t_idx', i); renderZikr(); };
+                list.appendChild(chip);
+            });
+            const current = zikrPresets[zikrIdx];
+            document.getElementById('display-title').innerText = current.title;
+            document.getElementById('display-arabic').innerText = current.ar;
+            document.getElementById('display-meaning').innerText = current.mean;
+            document.getElementById('count-number').innerText = count;
+        }
+
+        function incrementCounter() {
+            count++;
+            document.getElementById('count-number').innerText = count;
+            localStorage.setItem('t_count', count);
+            if(navigator.vibrate) navigator.vibrate(30);
+        }
+        function resetCounter() {
+            if(confirm("Reset Counter?")) { count = 0; localStorage.setItem('t_count', 0); document.getElementById('count-number').innerText = 0; }
+        }
+
+        function switchTab(t, btn) {
+            document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+            document.getElementById(t + '-view').classList.add('active');
+            btn.classList.add('active');
+            const player = document.getElementById('player-bar');
+            if (t === 'tasbih') player.classList.remove('visible'); 
+            else if (t === 'quran' && currentVerseIndex !== -1) player.classList.add('visible'); 
+        }
+
+        initApp();
+    </script>
+</body>
+</html>
+    
