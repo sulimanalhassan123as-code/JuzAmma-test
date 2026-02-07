@@ -217,9 +217,10 @@
             }
         }
 
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('./sw.js');
-        }
+        // PWA REGISTRATION
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('./sw.js');
+}
 
         // --- CLOUD LOGIC ---
         let quranData = []; 
