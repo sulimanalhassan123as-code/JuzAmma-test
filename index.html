@@ -217,10 +217,26 @@
             }
         }
 
-        // PWA REGISTRATION
-if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('./sw.js');
-}
+        <script>
+        // --- 1. FORCE UNREGISTER OLD WORKERS ---
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.getRegistrations().then(function(registrations) {
+                for(let registration of registrations) {
+                    // If it's NOT our new soft worker, kill it
+                    if (registration.active && !registration.active.scriptURL.includes('service-worker.js')) {
+                        registration.unregister();
+                        console.log('Old aggressive worker killed.');
+                    }
+                }
+            });
+
+            // --- 2. REGISTER THE SOFT WORKER ---
+            navigator.serviceWorker.register('./service-worker.js')
+                .then(reg => console.log('Soft SW Registered'))
+                .catch(err => console.log('SW Fail', err));
+        }
+
+        // ... (The rest of your app logic: quranData, initApp, etc. follows here) ...
 
         // --- CLOUD LOGIC ---
         let quranData = []; 
