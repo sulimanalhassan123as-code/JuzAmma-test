@@ -1,4 +1,4 @@
-const CACHE_NAME = 'juz-amma-clean-v1';
+const CACHE_NAME = 'juz-amma-soft-dev-v1';
 const ASSETS = [
     './',
     './index.html',
@@ -6,7 +6,7 @@ const ASSETS = [
     'https://fonts.googleapis.com/css2?family=Amiri&family=Poppins:wght@300;500;700&display=swap'
 ];
 
-// 1. INSTALL: Cache the basics
+// 1. INSTALL: Just set it up, don't be aggressive
 self.addEventListener('install', (e) => {
     self.skipWaiting(); // Activate immediately
     e.waitUntil(
@@ -14,13 +14,12 @@ self.addEventListener('install', (e) => {
     );
 });
 
-// 2. ACTIVATE: Delete ALL old caches (The "Cleanup" phase)
+// 2. ACTIVATE: Clean up old messes
 self.addEventListener('activate', (e) => {
     e.waitUntil(
         caches.keys().then((keyList) => {
             return Promise.all(keyList.map((key) => {
                 if (key !== CACHE_NAME) {
-                    console.log('[SW] Deleting old cache:', key);
                     return caches.delete(key);
                 }
             }));
@@ -29,10 +28,22 @@ self.addEventListener('activate', (e) => {
     return self.clients.claim();
 });
 
-// 3. FETCH: Network First, falling back to Cache (Best for Development)
-// This ensures you always see the latest changes if you have internet.
+// 3. FETCH: NETWORK FIRST (The "Soft" Strategy)
+// This logic says: "Go to the internet FIRST. If that fails, THEN look at the cache."
 self.addEventListener('fetch', (e) => {
     e.respondWith(
-        fetch(e.request).catch(() => caches.match(e.request))
+        fetch(e.request)
+            .then((res) => {
+                // If we got a valid response from the internet, update the cache!
+                const resClone = res.clone();
+                caches.open(CACHE_NAME).then((cache) => {
+                    cache.put(e.request, resClone);
+                });
+                return res;
+            })
+            .catch(() => {
+                // If internet fails, fallback to cache
+                return caches.match(e.request);
+            })
     );
 });
