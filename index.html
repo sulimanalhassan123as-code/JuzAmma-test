@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Juz Amma Dev</title>
+    <title>Juz Amma Fixed</title>
     
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#10b981">
@@ -15,45 +15,41 @@
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         body { margin: 0; font-family: 'Poppins', sans-serif; background: var(--light); color: var(--dark); height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
         
-        /* LAYOUT */
         .view { display: none; flex: 1; overflow-y: auto; padding-bottom: 160px; scroll-behavior: smooth; }
         .view.active { display: block; }
         
-        /* HEADER */
         .header-quran { background: var(--surface); padding: 15px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 20; }
         .header-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
         
-        /* BRANDING */
         .brand-box { display: flex; align-items: center; gap: 10px; }
         .app-logo { width: 35px; height: 35px; fill: var(--primary); }
         .app-title { font-weight: 700; font-size: 1.1rem; color: var(--primary); }
         
-        /* BUTTONS */
         .header-actions { display: flex; gap: 10px; }
         .btn-icon { background: #f1f5f9; border: none; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; cursor: pointer; color: #64748b; transition: 0.2s; }
         .btn-icon:active { transform: scale(0.95); }
         
         #btn-install { display: none; background: var(--primary); color: white; border: none; padding: 0 15px; height: 40px; border-radius: 20px; font-weight: 600; font-size: 0.85rem; align-items: center; gap: 5px; box-shadow: 0 4px 10px rgba(16,185,129,0.3); }
 
-        /* SETTINGS */
         .settings-panel { display: none; background: #f1f5f9; padding: 15px; border-radius: 12px; margin-bottom: 15px; animation: slideDown 0.2s; }
         .settings-panel.open { display: block; }
         .dev-credits { margin-top: 15px; padding-top: 15px; border-top: 1px dashed #cbd5e1; text-align: center; font-size: 0.8rem; color: #64748b; }
         .whatsapp-link { display: inline-flex; align-items: center; gap: 5px; color: #25D366; font-weight: 600; text-decoration: none; margin-top: 5px; }
 
-        /* SEARCH & LIST */
         .search-bar { width: 100%; padding: 12px 15px; border: 1px solid #e2e8f0; border-radius: 12px; background: #f8fafc; font-family: inherit; font-size: 0.95rem; }
         .search-bar:focus { outline: 2px solid var(--primary); border-color: transparent; }
+        
         .surah-header { text-align: center; margin: 30px 0 10px; color: #64748b; font-weight: 600; background: #f1f5f9; padding: 8px 15px; border-radius: 20px; display: inline-block; font-size: 0.9rem; }
         
-        /* VERSES */
+        /* BISMILLAH STYLE (New) */
+        .bismillah-header { font-family: 'Amiri', serif; font-size: 1.6rem; color: var(--primary); margin: 10px 0 20px; text-align: center; width: 100%; display: block; }
+
         .verse-card { background: var(--surface); padding: 25px 20px; margin: 15px; border-radius: 16px; text-align: center; box-shadow: 0 2px 5px rgba(0,0,0,0.03); position: relative; transition: all 0.3s ease; border: 2px solid transparent; scroll-margin-top: 140px; }
         .verse-card.playing { border-color: var(--primary); background: var(--primary-dim); transform: scale(1.02); box-shadow: 0 8px 25px rgba(16,185,129,0.2); }
         .arabic-text { font-family: 'Amiri', serif; line-height: 2.4; margin-bottom: 15px; color: #1e293b; }
         .trans-text { font-size: 0.95rem; color: #64748b; border-top: 1px dashed #e2e8f0; padding-top: 15px; }
         .hidden { display: none; }
 
-        /* TASBIH & STARS */
         #tasbih-view { background: linear-gradient(135deg, #0f172a 0%, #334155 100%); color: white; display: none; flex-direction: column; }
         #tasbih-view.active { display: flex; }
         .zikr-carousel { display: flex; gap: 10px; overflow-x: auto; padding: 15px 20px; background: rgba(0,0,0,0.2); white-space: nowrap; }
@@ -65,15 +61,15 @@
         .target-chip.active { background: var(--gold); color: black; border-color: var(--gold); font-weight: bold; }
 
         .counter-wrapper { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 10px 20px; text-align: center; position: relative; }
+        
+        /* FIXED BUTTON SIZE (Smaller) */
         .big-button { width: 180px; height: 180px; border-radius: 50%; background: rgba(255,255,255,0.05); border: 5px solid var(--primary); display: flex; flex-direction: column; align-items: center; justify-content: center; box-shadow: 0 0 30px rgba(16, 185, 129, 0.2); user-select: none; margin-top: 15px; position: relative; z-index: 10; transition: transform 0.1s; }
         .big-button:active { transform: scale(0.95); background: rgba(16, 185, 129, 0.1); }
         #count-number { font-size: 3.5rem; font-weight: 700; line-height: 1; }
 
-        /* CONFETTI */
         .confetti { position: absolute; top: 50%; left: 50%; width: 10px; height: 10px; background: var(--gold); border-radius: 50%; pointer-events: none; opacity: 0; }
         @keyframes pop { 0% { transform: translate(-50%, -50%) scale(0); opacity: 1; } 100% { transform: translate(var(--tx), var(--ty)) scale(1); opacity: 0; } }
 
-        /* PLAYER BAR */
         .player-bar { position: fixed; bottom: 70px; left: 0; width: 100%; height: 70px; background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(10px); border-top: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: space-between; padding: 0 20px; color: white; z-index: 150; transition: transform 0.3s; transform: translateY(100%); }
         .player-bar.visible { transform: translateY(0); }
         .player-info { flex: 1; display: flex; flex-direction: column; justify-content: center; overflow: hidden; }
@@ -83,7 +79,6 @@
         .ctrl-btn { background: none; border: none; color: white; font-size: 1.2rem; cursor: pointer; padding: 5px; }
         .ctrl-btn.play { background: var(--primary); width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; box-shadow: 0 0 10px rgba(16,185,129,0.4); }
 
-        /* NAV */
         .bottom-nav { position: fixed; bottom: 0; width: 100%; height: 70px; background: var(--surface); display: flex; justify-content: space-around; align-items: center; box-shadow: 0 -4px 20px rgba(0,0,0,0.05); z-index: 100; }
         .nav-item { display: flex; flex-direction: column; align-items: center; color: #94a3b8; font-size: 0.8rem; font-weight: 500; transition: 0.2s; }
         .nav-item.active { color: var(--primary); transform: translateY(-2px); }
@@ -170,16 +165,12 @@
     <div class="toast-container" id="toast-area"></div>
     <audio id="audioPlayer" preload="none"></audio>
     <script>
-        // --- !!! THE KILL SWITCH (DEV MODE) !!! ---
+        // KILL SWITCH (DEV MODE)
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.getRegistrations().then(function(registrations) {
-                for(let registration of registrations) {
-                    console.log('DEV MODE: Killing SW:', registration);
-                    registration.unregister();
-                }
+                for(let registration of registrations) { registration.unregister(); }
             });
         }
-        // ------------------------------------------
 
         // PWA INSTALL
         let deferredPrompt;
@@ -223,12 +214,23 @@
             } catch (e) { document.getElementById('quran-list').innerHTML = `<div style="text-align:center; padding:50px;">Check Internet Connection</div>`; }
         }
 
+        // FIXED: CLEAN THE BISMILLAH
         function processCloudData(arAyahs, enAyahs) {
             let tempSurahs = {};
+            const bismillahStr = "بِسْمِ ٱللَّهِ ٱلرَّحْمَـٰنِ ٱلرَّحِيمِ";
+
             arAyahs.forEach((ayah, index) => {
                 const sNum = ayah.surah.number;
                 if (!tempSurahs[sNum]) tempSurahs[sNum] = { id: sNum, name: ayah.surah.englishName, verses: [] };
-                tempSurahs[sNum].verses.push({ a: ayah.text, e: enAyahs[index].text });
+                
+                let arabicText = ayah.text;
+                
+                // If it is the first verse (but NOT Fatiha), remove the Bismillah
+                if (ayah.numberInSurah === 1 && sNum !== 1 && arabicText.includes(bismillahStr)) {
+                    arabicText = arabicText.replace(bismillahStr, "").trim();
+                }
+
+                tempSurahs[sNum].verses.push({ a: arabicText, e: enAyahs[index].text });
             });
             quranData = Object.values(tempSurahs).sort((a, b) => a.id - b.id);
             localStorage.setItem('juzAmmaCache', JSON.stringify(quranData));
@@ -241,8 +243,15 @@
             let html = '';
             const filtered = quranData.filter(s => s.name.toLowerCase().includes(filter.toLowerCase()));
             if(filtered.length === 0) { list.innerHTML = `<div style="text-align:center; padding:50px;">No Surah found</div>`; return; }
+            
             filtered.forEach(surah => {
-                html += `<div style="text-align:center;"><div class="surah-header">Surah ${surah.name}</div></div>`;
+                // FIXED: Add Separate Bismillah Header
+                html += `
+                <div style="text-align:center;">
+                    <div class="surah-header">Surah ${surah.name}</div>
+                    <div class="bismillah-header">بِسْمِ ٱللَّهِ ٱلرَّحْمَـٰنِ ٱلرَّحِيمِ</div>
+                </div>`;
+                
                 surah.verses.forEach((v, i) => {
                     const verseNum = i + 1;
                     html += `
@@ -320,7 +329,6 @@
         function prevVerse() { if (currentVerseIndex > 0) playVerse(currentSurahId, currentVerseIndex - 1); else playVerse(currentSurahId, 0); }
         function toggleLoop() { isLooping = !isLooping; document.getElementById('btn-loop').classList.toggle('active'); showToast(isLooping ? "Loop: ON" : "Loop: OFF"); }
         function updatePlayerUI() { document.getElementById('btn-play-pause').innerText = isPlaying ? "⏸" : "▶"; const surah = quranData.find(s => s.id === currentSurahId); document.getElementById('p-title').innerText = `Surah ${surah.name}`; document.getElementById('p-sub').innerText = `Verse ${currentVerseIndex + 1}`; }
-
         function switchTab(t, btn) {
             document.querySelectorAll('.view').forEach(v => v.classList.remove('active')); document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
             document.getElementById(t + '-view').classList.add('active'); btn.classList.add('active');
@@ -330,4 +338,4 @@
         initApp();
     </script>
 </body>
-  </html>
+    </html>
