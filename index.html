@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Juz Amma A2.5 Fixed</title>
+    <title>Juz Amma A3 Master</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Amiri&family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
     <style>
@@ -11,101 +11,129 @@
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         body { margin: 0; font-family: 'Poppins', sans-serif; background: var(--light); color: var(--dark); height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
         
-        .view { display: none; flex: 1; overflow-y: auto; padding-bottom: 20px; scroll-behavior: smooth; }
+        /* NAVIGATION VIEWS */
+        .view { display: none; flex: 1; overflow-y: auto; padding-bottom: 160px; scroll-behavior: smooth; }
         .view.active { display: block; }
         
-        /* --- DASHBOARD --- */
+        /* HOME DASHBOARD */
         #home-view { padding: 30px 20px; text-align: center; display: none; flex-direction: column; justify-content: center; height: 100vh; background: var(--dark); color: white; }
         #home-view.active { display: flex; }
-        .menu-card { background: rgba(255,255,255,0.05); border: 1px solid var(--primary); padding: 25px; border-radius: 20px; margin-bottom: 20px; display: flex; align-items: center; gap: 20px; cursor: pointer; }
-        .menu-icon { font-size: 2rem; }
+        .menu-card { background: rgba(255,255,255,0.05); border: 1px solid var(--primary); padding: 25px; border-radius: 20px; margin-bottom: 20px; display: flex; align-items: center; gap: 20px; cursor: pointer; transition: 0.2s; }
+        .menu-card:active { transform: scale(0.98); background: rgba(16, 185, 129, 0.2); }
 
-        /* --- STICKY HEADER --- */
+        /* HEADERS */
         .header-sticky { background: var(--surface); padding: 15px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 20; }
         .header-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-        .btn-back { background: #f1f5f9; border: none; padding: 8px 15px; border-radius: 20px; font-weight: 600; color: #64748b; }
-        
+        .btn-back { background: #f1f5f9; border: none; padding: 8px 15px; border-radius: 20px; font-weight: 600; color: #64748b; cursor: pointer; }
         .search-bar { width: 100%; padding: 12px 15px; border: 2px solid var(--primary); border-radius: 12px; background: #fff; font-size: 1rem; }
 
-        /* --- READING CARDS --- */
+        /* QURAN READING */
         .verse-card { background: var(--surface); padding: 25px 20px; margin: 15px; border-radius: 16px; text-align: center; transition: 0.3s; border: 2px solid transparent; scroll-margin-top: 40vh; }
         .verse-card.playing { border-color: var(--primary); background: rgba(16, 185, 129, 0.05); transform: scale(1.02); }
-        .arabic-text { font-family: 'Amiri', serif; line-height: 2.2; font-size: 26px; }
+        .arabic-text { font-family: 'Amiri', serif; line-height: 2.2; font-size: 26px; color: #1e293b; }
+        .bismillah-header { font-family: 'Amiri', serif; font-size: 1.6rem; color: var(--primary); text-align: center; margin: 15px 0; }
 
-        /* --- MARATHON (TASBIH) --- */
+        /* MOUNTAIN TASBIH */
         #tasbih-view { background: #0f172a; color: white; display: none; flex-direction: column; height: 100vh; }
         .mountain-viewport { width: 100%; height: 160px; position: relative; background: #1e293b; overflow: hidden; border-bottom: 1px solid rgba(255,255,255,0.1); }
-        
         .m-track { position: absolute; bottom: 0; width: 400%; height: 100%; background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 100" preserveAspectRatio="none"><path d="M0,100 L100,60 L200,90 L300,30 L400,80 L500,20 L500,100 Z" fill="%23334155"/></svg>'); background-repeat: repeat-x; background-size: 25% 100%; transition: transform 0.4s ease-out; }
         .climber { position: absolute; bottom: 20px; left: 20%; font-size: 2.5rem; transition: transform 0.2s; z-index: 10; }
-        .mosque { position: absolute; top: 15px; right: -120px; font-size: 3.5rem; transition: right 1.5s ease; filter: drop-shadow(0 0 15px var(--gold)); }
+        .mosque { position: absolute; top: 15px; right: -150px; font-size: 3.5rem; transition: right 1.5s ease; filter: drop-shadow(0 0 15px var(--gold)); }
         
-        .stage-pill { position: absolute; top: 10px; left: 10px; background: var(--gold); color: black; padding: 4px 12px; border-radius: 15px; font-size: 0.7rem; font-weight: bold; }
+        .zikr-selector { display: flex; gap: 10px; overflow-x: auto; padding: 15px; background: rgba(0,0,0,0.3); }
+        .zikr-chip { background: rgba(255,255,255,0.1); padding: 8px 15px; border-radius: 20px; white-space: nowrap; font-size: 0.8rem; border: 1px solid transparent; }
+        .zikr-chip.active { background: var(--primary); border-color: white; font-weight: bold; }
 
         .counter-area { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-        .big-button { width: 150px; height: 150px; border-radius: 50%; border: 5px solid var(--primary); display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.05); }
+        .big-button { width: 150px; height: 150px; border-radius: 50%; border: 6px solid var(--primary); display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.05); cursor: pointer; }
         #count-number { font-size: 3.5rem; font-weight: bold; }
 
-        /* PLAYER BAR */
-        .player-bar { position: fixed; bottom: 0; width: 100%; height: 75px; background: #0f172a; border-top: 2px solid var(--primary); display: flex; align-items: center; justify-content: space-between; padding: 0 20px; color: white; transform: translateY(100%); transition: 0.3s; z-index: 100; }
+        /* AUDIO PLAYER BAR */
+        .player-bar { position: fixed; bottom: 0; width: 100%; background: #0f172a; border-top: 2px solid var(--primary); color: white; padding: 15px 20px; transform: translateY(100%); transition: 0.3s; z-index: 200; }
         .player-bar.visible { transform: translateY(0); }
-        .play-btn { background: var(--primary); width: 45px; height: 45px; border-radius: 50%; border: none; color: white; }
+        .player-controls { display: flex; align-items: center; justify-content: space-between; gap: 15px; }
+        .p-btn { background: none; border: none; color: white; font-size: 1.2rem; cursor: pointer; }
+        .p-btn.active { color: var(--gold); }
+        .play-main { background: var(--primary); width: 45px; height: 45px; border-radius: 50%; color: white; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; }
     </style>
 </head>
 <body>
 
     <div id="home-view" class="active">
-        <h2 style="margin-bottom: 40px;">Juz Amma Pro</h2>
-        <div class="menu-card" onclick="goToView('list')"><span class="menu-icon">📖</span><div><h3>Read Quran</h3><p>Surah 78-114</p></div></div>
-        <div class="menu-card" onclick="goToView('tasbih')"><span class="menu-icon">🏔️</span><div><h3>Mountain Tasbih</h3><p>Start Marathon</p></div></div>
+        <h2 style="margin-bottom: 40px; color: var(--primary);">Juz Amma A3 Master</h2>
+        <div class="menu-card" onclick="goToView('list')"><span style="font-size:2rem;">📖</span><div><h3>Read & Listen</h3><p>Centered Reading & Background Audio</p></div></div>
+        <div class="menu-card" onclick="goToView('tasbih')"><span style="font-size:2rem;">🏔️</span><div><h3>Mountain Marathon</h3><p>Zikr Journey to the Mosque</p></div></div>
+        <p style="font-size: 0.7rem; opacity: 0.5; margin-top: 20px;">Developed by Suleiman Alhassan</p>
     </div>
 
     <div id="list-view" class="view">
         <div class="header-sticky">
-            <div class="header-top"><button class="btn-back" onclick="goToView('home')">← Home</button><strong>Juz 30</strong><div style="width:50px;"></div></div>
-            <input type="text" class="search-bar" placeholder="Search Surah..." oninput="renderSurahList(this.value)">
+            <div class="header-top"><button class="btn-back" onclick="goToView('home')">← Home</button><strong>Surah List</strong><div style="width:40px;"></div></div>
+            <input type="text" class="search-bar" placeholder="Search Surah (e.g. Naba)..." oninput="renderSurahList(this.value)">
         </div>
         <div id="surah-list-container"></div>
     </div>
 
     <div id="read-view" class="view">
-        <div class="header-sticky"><div class="header-top"><button class="btn-back" onclick="goToView('list')">← Back</button><span id="reading-name" style="font-weight:bold;">...</span><div style="width:50px;"></div></div></div>
-        <div id="verse-container" style="padding-bottom: 120px;"></div>
+        <div class="header-sticky">
+            <div class="header-top"><button class="btn-back" onclick="goToView('list')">← Back</button><span id="reading-name" style="font-weight:bold; color:var(--primary);">...</span><div style="width:40px;"></div></div>
+        </div>
+        <div id="verse-container" style="padding-bottom: 150px;"></div>
     </div>
 
     <div id="tasbih-view" class="view">
-        <div class="header-sticky" style="background:transparent;"><button class="btn-back" onclick="goToView('home')" style="background:rgba(255,255,255,0.1); color:white;">← Home</button></div>
+        <div class="header-sticky" style="background:transparent; color:white;"><button class="btn-back" onclick="goToView('home')" style="background:rgba(255,255,255,0.1); color:white;">← Home</button></div>
         
         <div class="mountain-viewport">
             <div id="m-track" class="m-track"></div>
             <div id="the-mosque" class="mosque">🕌</div>
-            <div id="the-climber" class="climber">🏃</div>
-            <div id="stage-pill" class="stage-pill">STAGE 1: 0/33</div>
+            <div id="the-climber" class="climber">🚶</div>
+            <div id="stage-pill" style="position:absolute; top:10px; right:10px; background:var(--primary); padding:4px 10px; border-radius:10px; font-size:0.7rem;">Target: 33</div>
         </div>
 
+        <div class="zikr-selector" id="zikr-chips"></div>
+
         <div class="counter-area">
-            <div style="text-align:center;">
-                <div id="d-title" style="font-weight:700; color:var(--primary); font-size:1.3rem;">SubhanAllah</div>
-                <div id="d-arabic" style="font-family:'Amiri'; font-size:1.8rem; color:var(--gold);">سُبْحَانَ ٱللَّٰهِ</div>
+            <div style="text-align:center; margin-bottom:20px;">
+                <div id="d-title" style="font-weight:700; color:var(--primary); font-size:1.4rem;">SubhanAllah</div>
+                <div id="d-arabic" style="font-family:'Amiri'; font-size:2rem; color:var(--gold);">سُبْحَانَ ٱللَّٰهِ</div>
             </div>
             <div class="big-button" onclick="handleTap()"><span id="count-number">0</span></div>
-            <button onclick="resetCounter()" style="background:none; border:none; color:rgba(255,255,255,0.3); font-size:0.8rem;">RESET ALL</button>
+            <button onclick="resetCounter()" style="margin-top:20px; background:none; border:none; color:rgba(255,255,255,0.3); font-size:0.8rem;">RESET CURRENT</button>
         </div>
     </div>
 
     <div id="player-bar" class="player-bar">
-        <div style="flex:1;"><div id="p-title" style="font-weight:bold;">...</div><div id="p-sub" style="font-size:0.75rem; opacity:0.7;">Verse 1</div></div>
-        <button class="play-btn" id="btn-play-pause" onclick="togglePlay()">▶</button>
-        <button class="play-btn" style="background:none;" onclick="nextVerse()">⏭</button>
+        <div style="display:flex; justify-content:space-between; margin-bottom:10px; border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:5px;">
+            <div style="font-size:0.8rem;"><strong id="p-title">Surah</strong> - <span id="p-sub">Verse 1</span></div>
+            <div style="display:flex; gap:15px;">
+                <button id="btn-loop" class="p-btn" onclick="toggleLoop()">🔁</button>
+                <button id="btn-auto" class="p-btn active" onclick="toggleAuto()">Continuous</button>
+            </div>
+        </div>
+        <div class="player-controls">
+            <button class="p-btn" onclick="prevVerse()">⏮</button>
+            <button class="p-btn play-main" id="btn-play-pause" onclick="togglePlay()">▶</button>
+            <button class="p-btn" onclick="nextVerse()">⏭</button>
+        </div>
     </div>
+
     <audio id="audioPlayer"></audio>
     <script>
-        // CLEAN SW KILLER
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.getRegistrations().then(r => r.forEach(reg => reg.unregister()));
-        }
+        // --- 1. CORE STATE ---
+        let qData = [];
+        let isLooping = false, isContinuous = true, isPlaying = false;
+        let curS = 0, curV = 0;
 
-        // --- CORE NAV ---
+        const marathonPath = [
+            { t: "SubhanAllah", a: "سُبْحَانَ ٱللَّٰهِ", g: 33, icon: "🚶" },
+            { t: "Alhamdulillah", a: "ٱلْحَمْدُ لِلَّٰهِ", g: 33, icon: "🏃" },
+            { t: "Allahu Akbar", a: "ٱللَّٰهُ أَكْبَرُ", g: 34, icon: "🧗" },
+            { t: "Astaghfirullah", a: "أَسْتَغْفِرُ ٱللَّٰهَ", g: 33, icon: "🚀" }
+        ];
+        let stageIdx = 0, count = 0, treadmillPos = 0;
+
+        // --- 2. NAVIGATION ---
         function goToView(v) {
             document.querySelectorAll('.view').forEach(el => el.classList.remove('active'));
             document.getElementById('home-view').classList.remove('active');
@@ -114,10 +142,10 @@
             if(v !== 'read') document.getElementById('player-bar').classList.remove('visible');
         }
 
-        // --- QURAN LOGIC (A2 STABLE) ---
-        let qData = [];
+        // --- 3. QURAN ENGINE (A3 CENTERED) ---
         async function initApp() {
-            const cached = localStorage.getItem('juzAmma_A2_5');
+            renderZikrChips();
+            const cached = localStorage.getItem('juzAmma_A3_Master');
             if(cached) { qData = JSON.parse(cached); renderSurahList(); }
             else { await fetchCloud(); }
         }
@@ -132,14 +160,14 @@
                     if(!temp[s.number]) temp[s.number] = { id:s.number, name:s.englishName, verses:[] };
                     let txt = ayah.text;
                     if(ayah.numberInSurah === 1 && s.number !== 1 && txt.includes("بِسْمِ")) {
-                        txt = txt.split(" ").slice(4).join(" "); // Surgical Clean
+                        txt = txt.split(" ").slice(4).join(" ");
                     }
                     temp[s.number].verses.push({ a: txt, e: en.data.ayahs[i].text });
                 });
                 qData = Object.values(temp);
-                localStorage.setItem('juzAmma_A2_5', JSON.stringify(qData));
+                localStorage.setItem('juzAmma_A3_Master', JSON.stringify(qData));
                 renderSurahList();
-            } catch(e) { console.error(e); }
+            } catch(e) { console.error("API Error", e); }
         }
 
         function renderSurahList(f = "") {
@@ -155,9 +183,9 @@
         function openSurah(id) {
             const s = qData.find(x => x.id === id);
             document.getElementById('reading-name').innerText = s.name;
-            let html = `<div style="text-align:center; padding:20px; font-family:'Amiri'; font-size:1.6rem; color:var(--primary);">بِسْمِ ٱللَّهِ ٱلرَّحْمَـٰنِ ٱلرَّحِيمِ</div>`;
+            let html = `<div class="bismillah-header">بِسْمِ ٱللَّهِ ٱلرَّحْمَـٰنِ ٱلرَّحِيمِ</div>`;
             s.verses.forEach((v, i) => {
-                html += `<div class="verse-card" id="v-${id}-${i+1}" onclick="playVerse(${id}, ${i})">
+                html += `<div class="verse-card" id="v-${id}-${i+1}" onclick="playVerse(${id}, i)">
                             <div class="arabic-text">${v.a}</div>
                             <div style="margin-top:10px; opacity:0.6; font-size:0.9rem;">${v.e}</div>
                          </div>`;
@@ -166,76 +194,24 @@
             goToView('read');
         }
 
-        // --- TASBIH MARATHON LOGIC (FIXED) ---
-        const path = [
-            { t: "SubhanAllah", a: "سُبْحَانَ ٱللَّٰهِ", g: 33 },
-            { t: "Alhamdulillah", a: "ٱلْحَمْدُ لِلَّٰهِ", g: 33 },
-            { t: "Allahu Akbar", a: "ٱللَّٰهُ أَكْبَرُ", g: 34 },
-            { t: "Astaghfirullah", a: "أَسْتَغْفِرُ ٱللَّٰهَ", g: 33 }
-        ];
-        let stageIdx = 0, currentCount = 0, treadmillPos = 0, backTimer;
-
-        function handleTap() {
-            currentCount++;
-            treadmillPos -= 12; // Mountain scrolls
-            if(treadmillPos <= -400) treadmillPos = 0; // Treadmill loop
-
-            document.getElementById('m-track').style.transform = `translateX(${treadmillPos}px)`;
-            document.getElementById('count-number').innerText = currentCount;
-            document.getElementById('stage-pill').innerText = `STAGE ${stageIdx+1}: ${currentCount}/${path[stageIdx].g}`;
-
-            // Check if Stage Complete
-            if(currentCount >= path[stageIdx].g) {
-                if(stageIdx < path.length - 1) {
-                    stageIdx++; currentCount = 0;
-                    updateStageUI();
-                } else {
-                    document.getElementById('the-mosque').style.right = "20px"; // Mosque arrives
-                }
-            }
-            
-            // Climber Jumps
-            const c = document.getElementById('the-climber');
-            c.style.transform = "translateY(-10px) scale(1.1)";
-            setTimeout(() => c.style.transform = "translateY(0) scale(1)", 100);
-
-            clearTimeout(backTimer);
-            backTimer = setTimeout(() => { // Idle slide back
-                if(currentCount > 0) { treadmillPos += 10; document.getElementById('m-track').style.transform = `translateX(${treadmillPos}px)`; }
-            }, 3000);
-
-            if(navigator.vibrate) navigator.vibrate(30);
-        }
-
-        function updateStageUI() {
-            const s = path[stageIdx];
-            document.getElementById('d-title').innerText = s.t;
-            document.getElementById('d-arabic').innerText = s.a;
-            document.getElementById('count-number').innerText = "0";
-            document.getElementById('stage-pill').innerText = `STAGE ${stageIdx+1}: 0/${s.g}`;
-        }
-
-        function resetCounter() {
-            stageIdx = 0; currentCount = 0; treadmillPos = 0;
-            updateStageUI();
-            document.getElementById('the-mosque').style.right = "-120px";
-            document.getElementById('m-track').style.transform = `translateX(0)`;
-        }
-
-        // --- AUDIO & FOCUS ---
+        // --- 4. PLAYER & BACKGROUND AUDIO ---
         const audio = document.getElementById('audioPlayer');
-        let curS=0, curV=0, isPlaying=false;
-
+        
         function playVerse(sid, vidx) {
-            curS=sid; curV=vidx; isPlaying=true;
+            curS = sid; curV = vidx; isPlaying = true;
+            const surah = qData.find(x => x.id === sid);
+            const verse = surah.verses[vidx];
+
             document.getElementById('player-bar').classList.add('visible');
             document.querySelectorAll('.verse-card').forEach(c => c.classList.remove('playing'));
+            
             const card = document.getElementById(`v-${sid}-${vidx+1}`);
             if(card) {
                 card.classList.add('playing');
-                card.scrollIntoView({ behavior: 'smooth', block: 'center' }); // FIXED CENTERING
+                card.scrollIntoView({ behavior: 'smooth', block: 'center' }); // FIX: CENTER FOCUS
             }
-            document.getElementById('p-title').innerText = qData.find(x=>x.id===sid).name;
+
+            document.getElementById('p-title').innerText = surah.name;
             document.getElementById('p-sub').innerText = `Verse ${vidx+1}`;
             document.getElementById('btn-play-pause').innerText = "⏸";
 
@@ -243,17 +219,89 @@
             const vStr = String(vidx+1).padStart(3, '0');
             audio.src = `https://everyayah.com/data/Alafasy_128kbps/${sStr}${vStr}.mp3`;
             audio.play();
-        }
 
-        function togglePlay() {
-            if(isPlaying) { audio.pause(); isPlaying=false; document.getElementById('btn-play-pause').innerText="▶"; }
-            else { audio.play(); isPlaying=true; document.getElementById('btn-play-pause').innerText="⏸"; }
+            // MEDIA SESSION (Background Play Logic)
+            if ('mediaSession' in navigator) {
+                navigator.mediaSession.metadata = new MediaMetadata({
+                    title: surah.name,
+                    artist: 'Mishary Rashid Alafasy',
+                    album: 'Juz Amma Master',
+                    artwork: [{ src: 'https://cdn-icons-png.flaticon.com/512/3024/3024497.png', sizes: '512x512', type: 'image/png' }]
+                });
+            }
         }
 
         audio.onended = () => {
-            const s = qData.find(x=>x.id===curS);
-            if(curV < s.verses.length-1) playVerse(curS, curV+1);
+            if(isLooping) playVerse(curS, curV);
+            else nextVerse();
         };
+
+        function nextVerse() {
+            const s = qData.find(x => x.id === curS);
+            if(curV < s.verses.length - 1) playVerse(curS, curV + 1);
+            else if(isContinuous) {
+                const nextS = qData.find(x => x.id === curS + 1);
+                if(nextS) playVerse(nextS.id, 0); // Continue to next Surah
+            }
+        }
+
+        function prevVerse() { if(curV > 0) playVerse(curS, curV - 1); }
+        function togglePlay() { 
+            if(isPlaying) { audio.pause(); isPlaying = false; document.getElementById('btn-play-pause').innerText = "▶"; }
+            else { audio.play(); isPlaying = true; document.getElementById('btn-play-pause').innerText = "⏸"; }
+        }
+        function toggleLoop() { isLooping = !isLooping; document.getElementById('btn-loop').classList.toggle('active'); }
+        function toggleAuto() { isContinuous = !isContinuous; document.getElementById('btn-auto').classList.toggle('active'); }
+
+        // --- 5. MARATHON TASBIH (UPGRADABLE) ---
+        function renderZikrChips() {
+            const container = document.getElementById('zikr-chips');
+            container.innerHTML = marathonPath.map((s, i) => `
+                <div class="zikr-chip ${i === stageIdx ? 'active' : ''}" onclick="selectStage(${i})">${s.t}</div>
+            `).join('');
+        }
+
+        function selectStage(idx) {
+            stageIdx = idx; count = 0; treadmillPos = 0;
+            updateStageUI(); renderZikrChips();
+        }
+
+        function handleTap() {
+            const s = marathonPath[stageIdx];
+            count++;
+            treadmillPos -= 10;
+            if(treadmillPos <= -400) treadmillPos = 0;
+
+            document.getElementById('m-track').style.transform = `translateX(${treadmillPos}px)`;
+            document.getElementById('count-number').innerText = count;
+            document.getElementById('stage-pill').innerText = `Goal: ${s.g}`;
+
+            // Upgrade Animation
+            const climber = document.getElementById('the-climber');
+            climber.innerText = s.icon;
+            climber.style.transform = "translateY(-10px) scale(1.1)";
+            setTimeout(() => climber.style.transform = "translateY(0) scale(1)", 100);
+
+            // Mosque Arrives at 100% of cycle
+            if(stageIdx === 3 && count > 20) document.getElementById('the-mosque').style.right = "30px";
+            if(count >= s.g) {
+                if(navigator.vibrate) navigator.vibrate([100, 50, 100]);
+                if(stageIdx < 3) selectStage(stageIdx + 1);
+                else alert("MashaAllah! You reached the Mosque!");
+            }
+            if(navigator.vibrate) navigator.vibrate(30);
+        }
+
+        function updateStageUI() {
+            const s = marathonPath[stageIdx];
+            document.getElementById('d-title').innerText = s.t;
+            document.getElementById('d-arabic').innerText = s.a;
+            document.getElementById('count-number').innerText = "0";
+            document.getElementById('the-climber').innerText = s.icon;
+            document.getElementById('the-mosque').style.right = "-150px";
+        }
+
+        function resetCounter() { count = 0; document.getElementById('count-number').innerText = "0"; }
 
         initApp();
     </script>
