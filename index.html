@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Juz Amma A3 Master</title>
+    <title>Juz Amma Stable A2</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Amiri&family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
     <style>
@@ -15,64 +15,61 @@
         .view { display: none; flex: 1; overflow-y: auto; padding-bottom: 160px; scroll-behavior: smooth; }
         .view.active { display: block; }
         
-        /* 1. HOME DASHBOARD */
+        /* 1. HOME DASHBOARD (A2 Style) */
         #home-view { padding: 30px 20px; text-align: center; display: none; flex-direction: column; justify-content: center; height: 100vh; background: var(--dark); color: white; }
         #home-view.active { display: flex; }
-        .menu-card { background: rgba(255,255,255,0.05); border: 1px solid var(--primary); padding: 25px; border-radius: 20px; margin-bottom: 20px; display: flex; align-items: center; gap: 20px; cursor: pointer; transition: 0.2s; }
-        .menu-card:active { transform: scale(0.98); background: rgba(16, 185, 129, 0.2); }
+        .menu-card { background: rgba(255,255,255,0.05); border: 1px solid var(--primary); padding: 25px; border-radius: 20px; margin-bottom: 20px; display: flex; align-items: center; gap: 20px; cursor: pointer; }
 
-        /* 2. QURAN LIST & SEARCH */
+        /* 2. LIST & SEARCH */
         .header-sticky { background: var(--surface); padding: 15px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 20; }
         .header-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
         .btn-back { background: #f1f5f9; border: none; padding: 8px 15px; border-radius: 20px; font-weight: 600; color: #64748b; cursor: pointer; }
         
+        /* FIXED: Search Bar visible */
         .search-bar { width: 100%; padding: 12px 15px; border: 2px solid var(--primary); border-radius: 12px; background: #fff; font-size: 1rem; color: #000; }
         
         .surah-item { padding: 15px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; cursor: pointer; background: white; }
-        .surah-item:hover { background: #f8fafc; }
 
         /* 3. READING VIEW */
-        .verse-card { background: var(--surface); padding: 25px 20px; margin: 15px; border-radius: 16px; text-align: center; transition: 0.3s; border: 2px solid transparent; scroll-margin-top: 40vh; }
+        .verse-card { background: var(--surface); padding: 25px 20px; margin: 15px; border-radius: 16px; text-align: center; transition: 0.3s; border: 2px solid transparent; scroll-margin-top: 45vh; }
         .verse-card.playing { border-color: var(--primary); background: rgba(16, 185, 129, 0.05); transform: scale(1.02); }
         .arabic-text { font-family: 'Amiri', serif; line-height: 2.2; font-size: 26px; color: #1e293b; }
         .bismillah-header { font-family: 'Amiri', serif; font-size: 1.6rem; color: var(--primary); text-align: center; margin: 15px 0; }
 
-        /* 4. MARATHON TASBIH UI */
+        /* 4. TASBIH (Stable Mountain) */
         #tasbih-view { background: #0f172a; color: white; display: none; flex-direction: column; height: 100vh; }
         
-        .mountain-viewport { width: 100%; height: 180px; position: relative; background: #1e293b; overflow: hidden; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .mountain-container { width: 100%; height: 200px; position: relative; background: linear-gradient(to bottom, #1e293b, #0f172a); overflow: hidden; border-bottom: 1px solid rgba(255,255,255,0.1); }
         
-        /* The Treadmill Track */
-        .m-track { position: absolute; bottom: 0; width: 400%; height: 100%; background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 100" preserveAspectRatio="none"><path d="M0,100 L100,60 L200,90 L300,30 L400,80 L500,20 L500,100 Z" fill="%23334155"/></svg>'); background-repeat: repeat-x; background-size: 25% 100%; transition: transform 0.3s linear; }
-        
-        .climber { position: absolute; bottom: 20px; left: 20%; font-size: 3rem; transition: transform 0.1s; z-index: 10; }
-        .mosque { position: absolute; top: 20px; right: -150px; font-size: 4rem; transition: right 1s ease; filter: drop-shadow(0 0 15px var(--gold)); }
-        
-        .stage-pill { position: absolute; top: 10px; right: 10px; background: var(--primary); padding: 4px 10px; border-radius: 10px; font-size: 0.8rem; font-weight: bold; color:white; }
+        /* Static Mountain Background */
+        .mountain-bg { position: absolute; bottom: 0; width: 100%; height: 100%; background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M0,100 L30,40 L60,80 L80,20 L100,100 Z" fill="%23334155" opacity="0.3"/></svg>'); background-size: cover; }
+
+        .climber { position: absolute; bottom: 20px; left: 10%; font-size: 3rem; transition: left 0.3s ease; z-index: 10; }
+        .mosque { position: absolute; top: 20px; right: 10px; font-size: 4rem; filter: drop-shadow(0 0 10px var(--gold)); }
 
         .counter-area { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-        .big-button { width: 150px; height: 150px; border-radius: 50%; border: 6px solid var(--primary); display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.05); cursor: pointer; box-shadow: 0 0 30px rgba(16, 185, 129, 0.2); }
+        .big-button { width: 160px; height: 160px; border-radius: 50%; border: 6px solid var(--primary); display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.05); cursor: pointer; box-shadow: 0 0 30px rgba(16, 185, 129, 0.2); }
         .big-button:active { transform: scale(0.95); background: rgba(16, 185, 129, 0.2); }
-        #count-number { font-size: 3.5rem; font-weight: bold; }
+        #count-number { font-size: 4rem; font-weight: bold; }
 
         /* PLAYER BAR */
         .player-bar { position: fixed; bottom: 0; width: 100%; height: 80px; background: #0f172a; border-top: 2px solid var(--primary); display: flex; align-items: center; justify-content: space-between; padding: 0 20px; color: white; transform: translateY(100%); transition: 0.3s; z-index: 200; }
         .player-bar.visible { transform: translateY(0); }
-        .play-btn { background: var(--primary); width: 50px; height: 50px; border-radius: 50%; border: none; color: white; font-size: 1.2rem; cursor: pointer; }
-        .ctrl-btn { background: none; border: none; color: white; font-size: 1.5rem; cursor: pointer; }
+        .play-btn { background: var(--primary); width: 50px; height: 50px; border-radius: 50%; border: none; color: white; font-size: 1.5rem; cursor: pointer; }
+        .ctrl-btn { background: none; border: none; color: white; font-size: 2rem; cursor: pointer; }
     </style>
 </head>
 <body>
 
     <div id="home-view" class="active">
-        <h2 style="margin-bottom: 40px; color: var(--primary);">Juz Amma A3</h2>
-        <div class="menu-card" onclick="goToView('list')"><span style="font-size:2rem;">📖</span><div><h3>Read & Listen</h3><p>Juz 30 • Audio</p></div></div>
-        <div class="menu-card" onclick="goToView('tasbih')"><span style="font-size:2rem;">🏔️</span><div><h3>Mountain Marathon</h3><p>33 • 33 • 34 • 33</p></div></div>
+        <h2 style="margin-bottom: 40px; color: var(--primary);">Juz Amma A2+</h2>
+        <div class="menu-card" onclick="goToView('list')"><span style="font-size:2rem;">📖</span><div><h3>Read & Listen</h3><p>Select Surah</p></div></div>
+        <div class="menu-card" onclick="goToView('tasbih')"><span style="font-size:2rem;">🏔️</span><div><h3>Mountain Journey</h3><p>Marathon Counter</p></div></div>
     </div>
 
     <div id="list-view" class="view">
         <div class="header-sticky">
-            <div class="header-top"><button class="btn-back" onclick="goToView('home')">← Home</button><strong>Select Surah</strong><div style="width:40px;"></div></div>
+            <div class="header-top"><button class="btn-back" onclick="goToView('home')">← Home</button><strong>Surah List</strong><div style="width:40px;"></div></div>
             <input type="text" class="search-bar" placeholder="Search Surah..." oninput="renderSurahList(this.value)">
         </div>
         <div id="surah-list-container"></div>
@@ -88,22 +85,22 @@
     <div id="tasbih-view" class="view">
         <div class="header-sticky" style="background:transparent; color:white;"><button class="btn-back" onclick="goToView('home')" style="background:rgba(255,255,255,0.1); color:white;">← Home</button></div>
         
-        <div class="mountain-viewport">
-            <div id="m-track" class="m-track"></div>
-            <div id="the-mosque" class="mosque">🕌</div>
-            <div id="the-climber" class="climber">🚶</div>
-            <div id="stage-pill" class="stage-pill">Target: 33</div>
+        <div class="mountain-container">
+            <div class="mountain-bg"></div>
+            <div class="mosque">🕌</div>
+            <div id="climber" class="climber">🚶</div>
+            <div id="stage-info" style="position:absolute; top:10px; left:10px; background:var(--primary); padding:5px 10px; border-radius:10px; font-size:0.8rem;">Stage 1</div>
         </div>
 
-        <div style="display:flex; gap:10px; overflow-x:auto; padding:10px; background:rgba(0,0,0,0.3);" id="zikr-chips"></div>
+        <div style="display:flex; gap:10px; overflow-x:auto; padding:15px; justify-content:center;" id="zikr-chips"></div>
 
         <div class="counter-area">
             <div style="text-align:center; margin-bottom:20px;">
-                <div id="d-title" style="font-weight:700; color:var(--primary); font-size:1.4rem;">SubhanAllah</div>
+                <div id="d-title" style="font-weight:700; color:var(--primary); font-size:1.5rem;">SubhanAllah</div>
                 <div id="d-arabic" style="font-family:'Amiri'; font-size:2rem; color:var(--gold);">سُبْحَانَ ٱللَّٰهِ</div>
             </div>
             <div class="big-button" onclick="handleTap()"><span id="count-number">0</span></div>
-            <button onclick="resetCounter()" style="margin-top:20px; background:none; border:none; color:rgba(255,255,255,0.3); font-size:0.8rem;">RESET</button>
+            <button onclick="resetCounter()" style="margin-top:30px; background:none; border:none; color:rgba(255,255,255,0.4);">RESET</button>
         </div>
     </div>
 
@@ -112,7 +109,7 @@
             <div style="font-size:0.9rem; font-weight:bold;" id="p-title">Surah</div>
             <div style="font-size:0.75rem; opacity:0.7;" id="p-sub">Verse 1</div>
         </div>
-        <div style="display:flex; align-items:center; gap:15px;">
+        <div style="display:flex; align-items:center; gap:20px;">
             <button class="ctrl-btn" onclick="prevVerse()">⏮</button>
             <button class="play-btn" id="btn-play-pause" onclick="togglePlay()">▶</button>
             <button class="ctrl-btn" onclick="nextVerse()">⏭</button>
@@ -121,20 +118,20 @@
     
     <audio id="audioPlayer"></audio>
     <script>
-        // --- 1. CONFIG & STATE ---
+        // --- 1. CONFIG ---
         let qData = [];
         let curS = 0, curV = 0, isPlaying = false;
         
-        // MARATHON CONFIG (Fixed Counts)
-        const marathonPath = [
+        // MARATHON CONFIG (33, 33, 34, 33)
+        const path = [
             { t: "SubhanAllah", a: "سُبْحَانَ ٱللَّٰهِ", g: 33, icon: "🚶" },
             { t: "Alhamdulillah", a: "ٱلْحَمْدُ لِلَّٰهِ", g: 33, icon: "🏃" },
             { t: "Allahu Akbar", a: "ٱللَّٰهُ أَكْبَرُ", g: 34, icon: "🧗" },
             { t: "Astaghfirullah", a: "أَسْتَغْفِرُ ٱللَّٰهَ", g: 33, icon: "🚀" }
         ];
-        let stageIdx = 0, count = 0, treadmillPos = 0;
+        let stageIdx = 0, count = 0;
 
-        // --- 2. NAVIGATION ---
+        // --- 2. NAVIGATION (A2 Logic) ---
         function goToView(v) {
             document.querySelectorAll('.view').forEach(el => el.classList.remove('active'));
             document.getElementById('home-view').classList.remove('active');
@@ -142,15 +139,15 @@
             if(v === 'home') document.getElementById('home-view').classList.add('active');
             else document.getElementById(v + '-view').classList.add('active');
             
-            // Hide player if not reading
-            if(v !== 'read' && !isPlaying) document.getElementById('player-bar').classList.remove('visible');
+            // Show player only if reading and playing
             if(v === 'read' && isPlaying) document.getElementById('player-bar').classList.add('visible');
+            else document.getElementById('player-bar').classList.remove('visible');
         }
 
-        // --- 3. QURAN ENGINE ---
+        // --- 3. QURAN ENGINE (A2 Stable) ---
         async function initApp() {
             renderZikrChips();
-            const cached = localStorage.getItem('juzAmma_A3_Master');
+            const cached = localStorage.getItem('juzAmma_A2_Stable');
             if(cached) { qData = JSON.parse(cached); renderSurahList(); }
             else { await fetchCloud(); }
         }
@@ -164,23 +161,23 @@
                     const s = ayah.surah;
                     if(!temp[s.number]) temp[s.number] = { id:s.number, name:s.englishName, verses:[] };
                     let txt = ayah.text;
-                    // Surgical Bismillah Removal
+                    // Surgical Bismillah Clean
                     if(ayah.numberInSurah === 1 && s.number !== 1 && txt.includes("بِسْمِ")) {
                         txt = txt.split(" ").slice(4).join(" ");
                     }
                     temp[s.number].verses.push({ a: txt, e: en.data.ayahs[i].text });
                 });
                 qData = Object.values(temp);
-                localStorage.setItem('juzAmma_A3_Master', JSON.stringify(qData));
+                localStorage.setItem('juzAmma_A2_Stable', JSON.stringify(qData));
                 renderSurahList();
-            } catch(e) { console.error("Net Error"); }
+            } catch(e) { console.log(e); }
         }
 
         function renderSurahList(f = "") {
             let html = '';
             qData.filter(s => s.name.toLowerCase().includes(f.toLowerCase())).forEach(s => {
                 html += `<div class="surah-item" onclick="openSurah(${s.id})">
-                            <strong>${s.id}. ${s.name}</strong>
+                            <strong>${s.id}.</strong> ${s.name}
                          </div>`;
             });
             document.getElementById('surah-list-container').innerHTML = html;
@@ -200,19 +197,20 @@
             goToView('read');
         }
 
-        // --- 4. PLAYER & AUTO-CENTER ---
+        // --- 4. PLAYER (A2 + Centering) ---
         const audio = document.getElementById('audioPlayer');
-        
+
         function playVerse(sid, vidx) {
             curS = sid; curV = vidx; isPlaying = true;
             const surah = qData.find(x => x.id === sid);
             
             document.getElementById('player-bar').classList.add('visible');
             document.querySelectorAll('.verse-card').forEach(c => c.classList.remove('playing'));
+            
             const card = document.getElementById(`v-${sid}-${vidx+1}`);
             if(card) {
                 card.classList.add('playing');
-                card.scrollIntoView({ behavior: 'smooth', block: 'center' }); // CENTER FIX
+                card.scrollIntoView({ behavior: 'smooth', block: 'center' }); // Centering
             }
 
             document.getElementById('p-title').innerText = surah.name;
@@ -236,68 +234,53 @@
         function prevVerse() { if(curV > 0) playVerse(curS, curV - 1); }
         audio.onended = nextVerse;
 
-        // --- 5. TASBIH MARATHON LOGIC ---
+        // --- 5. SIMPLE MOUNTAIN LOGIC ---
         function renderZikrChips() {
-            const container = document.getElementById('zikr-chips');
-            container.innerHTML = marathonPath.map((s, i) => `
-                <div class="zikr-chip ${i === stageIdx ? 'active' : ''}" 
-                     style="padding:5px 10px; background:${i===stageIdx ? 'var(--primary)' : 'rgba(255,255,255,0.2)'}; border-radius:10px; white-space:nowrap; cursor:pointer;"
+            document.getElementById('zikr-chips').innerHTML = path.map((s, i) => `
+                <div style="padding:5px 15px; background:${i===stageIdx ? 'var(--primary)' : 'rgba(255,255,255,0.1)'}; border-radius:15px; cursor:pointer;"
                      onclick="selectStage(${i})">${s.t}</div>
             `).join('');
         }
 
         function selectStage(idx) {
-            stageIdx = idx; count = 0; treadmillPos = 0;
+            stageIdx = idx; count = 0;
             updateStageUI(); renderZikrChips();
         }
 
         function handleTap() {
-            const s = marathonPath[stageIdx];
+            const s = path[stageIdx];
             count++;
             
-            // Treadmill Physics
-            treadmillPos -= 10;
-            if(treadmillPos <= -400) treadmillPos = 0;
-            document.getElementById('m-track').style.transform = `translateX(${treadmillPos}px)`;
+            // SIMPLE MATH: Move Climber (10% to 80%)
+            // Formula: Start + (Progress * Distance)
+            const progress = count / s.g; 
+            const position = 10 + (progress * 70); 
             
-            // Update Text
+            document.getElementById('climber').style.left = position + "%";
             document.getElementById('count-number').innerText = count;
-            document.getElementById('stage-pill').innerText = `Target: ${s.g}`;
-            
-            // Climber Jump
-            const climber = document.getElementById('the-climber');
-            climber.style.transform = "translateY(-10px)";
-            setTimeout(() => climber.style.transform = "translateY(0)", 100);
 
-            // Mosque Appearance (Last Stage Only)
-            if(stageIdx === 3 && count > 20) document.getElementById('the-mosque').style.right = "20px";
-            else document.getElementById('the-mosque').style.right = "-150px";
-
-            // Stage Completion
             if(count >= s.g) {
                 if(navigator.vibrate) navigator.vibrate([100,50,100]);
-                if(stageIdx < 3) {
-                    selectStage(stageIdx + 1);
-                } else {
-                    alert("MashaAllah! You reached the Mosque!");
-                    resetCounter();
-                }
+                if(stageIdx < 3) selectStage(stageIdx + 1);
+                else { alert("MashaAllah! Mosque Reached!"); resetCounter(); }
             } else {
                 if(navigator.vibrate) navigator.vibrate(30);
             }
         }
 
         function updateStageUI() {
-            const s = marathonPath[stageIdx];
+            const s = path[stageIdx];
             document.getElementById('d-title').innerText = s.t;
             document.getElementById('d-arabic').innerText = s.a;
             document.getElementById('count-number').innerText = "0";
-            document.getElementById('the-climber').innerText = s.icon;
+            document.getElementById('climber').innerText = s.icon;
+            document.getElementById('climber').style.left = "10%";
+            document.getElementById('stage-info').innerText = `Stage ${stageIdx+1} • Goal: ${s.g}`;
         }
 
-        function resetCounter() { count = 0; document.getElementById('count-number').innerText = "0"; }
+        function resetCounter() { count = 0; document.getElementById('count-number').innerText = "0"; selectStage(0); }
 
-        // START
+        // Start
         initApp();
     </script>
 </body>
