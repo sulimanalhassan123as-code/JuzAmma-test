@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Naba Quran · Home concepts</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  :root{
+    --ink:#eaf3ee; --dim:#8fa39a; --gold:#d8b25e; --em:#12a06a; --em2:#0b6f4b;
+    --card:rgba(255,255,255,.045); --line:rgba(255,255,255,.09);
+    --bg:#07120e;
+  }
+  body{
+    background:radial-gradient(900px 500px at 20% 0%,#0e2a20,#07120e 60%),#07120e;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+    color:var(--ink); padding:26px 20px 40px;
+  }
+  h1{font-size:15px;font-weight:700;letter-spacing:.3px;text-align:center;margin-bottom:4px}
+  .sub{font-size:11px;color:var(--dim);text-align:center;margin-bottom:22px;letter-spacing:.4px}
+  .row{display:flex;gap:22px;justify-content:center;align-items:flex-start;flex-wrap:wrap}
+  .concept{width:340px}
+  .label{font-size:11px;letter-spacing:1.2px;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:4px}
+  .note{font-size:10.5px;color:var(--dim);line-height:1.5;margin-bottom:9px;min-height:30px}
+  .phone{
+    width:340px;height:660px;border-radius:30px;overflow:hidden;position:relative;
+    background:linear-gradient(180deg,#0a1a14,#061009);
+    border:1px solid rgba(255,255,255,.12);
+    box-shadow:0 26px 60px -30px rgba(0,0,0,.9), inset 0 1px 0 rgba(255,255,255,.06);
+    padding:14px 13px 0;display:flex;flex-direction:column;gap:9px;
+  }
+  .phone::after{content:"";position:absolute;left:50%;transform:translateX(-50%);bottom:8px;width:100px;height:4px;border-radius:99px;background:rgba(255,255,255,.18)}
+  .bar{display:flex;align-items:center;justify-content:space-between;font-size:10px;color:var(--dim);margin-bottom:2px}
+  .brand{display:flex;align-items:center;gap:8px}
+  .mark{width:26px;height:26px;border-radius:9px;background:linear-gradient(150deg,#19b97c,#0a6b48);display:grid;place-items:center;font-weight:800;color:#04150e;font-size:14px;box-shadow:0 4px 12px -4px rgba(25,185,124,.7)}
+  .bname{font-size:11.5px;font-weight:700;letter-spacing:.4px}
+  .hijri{font-size:9px;color:var(--dim)}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:12px}
+  .h{font-size:9px;letter-spacing:1.1px;text-transform:uppercase;color:var(--dim);font-weight:700}
+  .gold{color:var(--gold)}
+  .em{color:#3ddc9a}
+  .big{font-size:20px;font-weight:700;letter-spacing:.2px}
+  .ar{font-family:"Amiri","Noto Naskh Arabic","Scheherazade New",serif;direction:rtl;font-size:17px;line-height:1.9;color:#f3e7c6}
+  .btn{border-radius:12px;background:linear-gradient(180deg,#15b477,#0a7b52);color:#04170f;font-weight:700;font-size:11.5px;text-align:center;padding:10px;border:1px solid rgba(61,220,154,.45)}
+  .btn.ghost{background:rgba(255,255,255,.05);color:var(--ink);border:1px solid var(--line);font-weight:600}
+  .tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+  .tile{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:10px 6px;text-align:center}
+  .tile .ic{font-size:15px}
+  .tile .tl{font-size:8.5px;color:var(--dim);margin-top:3px;letter-spacing:.2px}
+  .nav{margin-top:auto;display:flex;justify-content:space-around;padding:8px 0 14px;border-top:1px solid rgba(255,255,255,.07);font-size:8.5px;color:var(--dim)}
+  .nav b{color:#3ddc9a;font-weight:700}
+  .pill{display:inline-flex;align-items:center;gap:5px;border-radius:99px;padding:4px 9px;font-size:9px;font-weight:700;background:rgba(61,220,154,.13);color:#3ddc9a;border:1px solid rgba(61,220,154,.3)}
+  .row2{display:flex;gap:8px;align-items:center}
+  .strip{display:flex;justify-content:space-between;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:8px 9px;font-size:8.5px;color:var(--dim);text-align:center}
+  .strip .on{color:#3ddc9a;font-weight:700}
+  .arc{width:74px;height:74px;border-radius:50%;display:grid;place-items:center;position:relative;
+    background:conic-gradient(#15b477 0 62%, rgba(255,255,255,.08) 62% 100%)}
+  .arc::before{content:"";position:absolute;inset:7px;border-radius:50%;background:#0a1a14}
+  .arc span{position:relative;font-size:9px;font-weight:700;color:#3ddc9a}
+  .stats{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .stat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:9px 10px}
+  .stat .n{font-size:16px;font-weight:800}
+  .stat .l{font-size:8.5px;color:var(--dim);margin-top:1px}
+  .verse{font-size:11px;color:#cfe0d7;line-height:1.55;margin-top:5px}
+  .muted{font-size:9.5px;color:var(--dim);line-height:1.5}
+</style>
+</head>
+<body>
+  <h1>Three ways to rebuild the Home screen</h1>
+  <div class="sub">Same features, three different first impressions</div>
+
+  <div class="row">
+    <!-- A -->
+    <div class="concept">
+      <div class="label">A · Prayer first</div>
+      <div class="note">The reason most people open the app leads. Everything else is one tap below.</div>
+      <div class="phone">
+        <div class="bar"><div class="brand"><div class="mark">ج</div><div><div class="bname">NABA QURAN</div><div class="hijri">5 Jumada al-Thani 1448</div></div></div><div>☾</div></div>
+
+        <div class="card" style="display:flex;align-items:center;gap:12px">
+          <div class="arc"><span>15:07</span></div>
+          <div>
+            <div class="h">Next prayer</div>
+            <div class="big" style="margin:2px 0">Dhuhr <span class="muted">11:45</span></div>
+            <div class="muted">Accra · Fajr at 04:37</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="h">Continue reading</div>
+          <div style="display:flex;justify-content:space-between;align-items:baseline;margin-top:3px">
+            <div style="font-size:13px;font-weight:700">An-Naba</div><div class="muted">verse 12 / 40</div>
+          </div>
+          <div class="ar" style="font-size:14px;margin-top:2px">وَجَعَلْنَا نَوْمَكُمْ سُبَاتًا</div>
+          <div class="btn" style="margin-top:9px">Resume verse 12</div>
+        </div>
+
+        <div class="tiles">
+          <div class="tile"><div class="ic">📖</div><div class="tl">Quran</div></div>
+          <div class="tile"><div class="ic">🎓</div><div class="tl">Learn</div></div>
+          <div class="tile"><div class="ic">📿</div><div class="tl">Tasbih</div></div>
+          <div class="tile"><div class="ic">🤲</div><div class="tl">Duas</div></div>
+          <div class="tile"><div class="ic">🧭</div><div class="tl">Qibla</div></div>
+          <div class="tile"><div class="ic">👥</div><div class="tl">Study</div></div>
+        </div>
+
+        <div class="card" style="padding:10px 12px">
+          <div class="h">Ayah of the day</div>
+          <div class="verse">“Indeed, with hardship comes ease.” <span class="gold">94:6</span></div>
+        </div>
+
+        <div class="nav"><div><b>🏠<br>Home</b></div><div>📖<br>Quran</div><div>🎓<br>Learn</div><div>🏔<br>Dhikr</div><div>▦<br>More</div></div>
+      </div>
+    </div>
+
+    <!-- B -->
+    <div class="concept">
+      <div class="label">B · Reading first</div>
+      <div class="note">A reading app that opens on your book. Prayer becomes a quiet strip, always visible.</div>
+      <div class="phone">
+        <div class="bar"><div class="brand"><div class="mark">ج</div><div><div class="bname">NABA QURAN</div><div class="hijri">5 Jumada al-Thani 1448</div></div></div><div>☾</div></div>
+
+        <div class="strip"><div>Fajr<br>04:37</div><div class="on">Dhuhr<br>11:45</div><div>Asr<br>15:08</div><div>Maghrib<br>17:41</div><div>Isha<br>18:50</div></div>
+
+        <div class="card" style="padding:14px">
+          <div class="row2" style="justify-content:space-between"><div class="h">Your place</div><span class="pill">● 12 of 40</span></div>
+          <div style="font-size:17px;font-weight:700;margin:5px 0 2px">An-Naba</div>
+          <div class="muted">سورة النبأ · The Announcement</div>
+          <div class="ar" style="margin-top:8px">عَمَّ يَتَسَاءَلُونَ ۝ عَنِ النَّبَإِ الْعَظِيمِ</div>
+          <div class="verse">About what are they asking one another? About the great news.</div>
+          <div class="btn" style="margin-top:11px">Continue reading →</div>
+        </div>
+
+        <div class="card">
+          <div class="h">Ayah of the day · 94:6</div>
+          <div class="ar" style="font-size:15px;margin-top:3px">إِنَّ مَعَ الْعُسْرِ يُسْرًا</div>
+          <div class="verse">Indeed, with hardship comes ease.</div>
+        </div>
+
+        <div class="tiles">
+          <div class="tile"><div class="ic">📿</div><div class="tl">Tasbih</div></div>
+          <div class="tile"><div class="ic">🤲</div><div class="tl">Duas</div></div>
+          <div class="tile"><div class="ic">🧭</div><div class="tl">Qibla</div></div>
+        </div>
+
+        <div class="nav"><div><b>🏠<br>Home</b></div><div>📖<br>Quran</div><div>🎓<br>Learn</div><div>🏔<br>Dhikr</div><div>▦<br>More</div></div>
+      </div>
+    </div>
+
+    <!-- C -->
+    <div class="concept">
+      <div class="label">C · Dashboard</div>
+      <div class="note">Keeps the current density but organises it. Best for people who use many tools daily.</div>
+      <div class="phone">
+        <div class="bar"><div class="brand"><div class="mark">ج</div><div><div class="bname">NABA QURAN</div><div class="hijri">5 Jumada al-Thani 1448</div></div></div><div>☾</div></div>
+
+        <div class="stats">
+          <div class="stat"><div class="n em">1</div><div class="l">Day streak</div></div>
+          <div class="stat"><div class="n">0</div><div class="l">Tasbih today</div></div>
+          <div class="stat"><div class="n">114</div><div class="l">Surahs</div></div>
+          <div class="stat"><div class="n gold">2</div><div class="l">Points</div></div>
+        </div>
+
+        <div class="card">
+          <div class="row2" style="justify-content:space-between"><div class="h">Prayer · Accra</div><span class="pill">Dhuhr in 15:07</span></div>
+          <div class="strip" style="margin-top:7px;background:transparent;border:none;padding:0"><div>Fajr<br><span style="color:#eaf3ee">04:37</span></div><div class="on">Dhuhr<br>11:45</div><div>Asr<br><span style="color:#eaf3ee">15:08</span></div><div>Maghrib<br><span style="color:#eaf3ee">17:41</span></div><div>Isha<br><span style="color:#eaf3ee">18:50</span></div></div>
+        </div>
+
+        <div class="card">
+          <div class="h">Continue · An-Naba 12/40</div>
+          <div class="verse">وَجَعَلْنَا نَوْمَكُمْ سُبَاتًا</div>
+          <div class="btn ghost" style="margin-top:8px">Open verse 12</div>
+        </div>
+
+        <div class="tiles">
+          <div class="tile"><div class="ic">📖</div><div class="tl">Quran</div></div>
+          <div class="tile"><div class="ic">🎓</div><div class="tl">Learn</div></div>
+          <div class="tile"><div class="ic">📿</div><div class="tl">Tasbih</div></div>
+          <div class="tile"><div class="ic">🤲</div><div class="tl">Duas</div></div>
+          <div class="tile"><div class="ic">🌙</div><div class="tl">Night</div></div>
+          <div class="tile"><div class="ic">▦</div><div class="tl">All tools</div></div>
+        </div>
+
+        <div class="nav"><div><b>🏠<br>Home</b></div><div>📖<br>Quran</div><div>🎓<br>Learn</div><div>🏔<br>Dhikr</div><div>▦<br>More</div></div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
